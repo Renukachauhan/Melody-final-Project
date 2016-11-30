@@ -3,9 +3,11 @@ package com.niit.controller;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -24,18 +26,38 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.webflow.context.servlet.HttpServletContextMap;
 
+import com.niit.model.Category;
 import com.niit.model.Product;
+import com.niit.model.Supplier;
+import com.niit.service.CategoryService;
 import com.niit.service.ProductService;
+import com.niit.service.SupplierService;
 
 @Controller
 public class ProductController {
+	
+
 	@Autowired
 	private ProductService productService;
 
+@Autowired
+private CategoryService cs;
+	
+	@Autowired
+	private SupplierService sup;
+	
 	@RequestMapping(value = "/product/add")
-	public String addProductPage() {
+	public String addProductPage(Model model) {
 		// ModelAndView modelAndView = new ModelAndView("add-product");
 		// modelAndView.addObject("product", new Product());//to avoid NLP
+/*List<Category> list = cs.getAllCategories();
+		
+//modelAndView.addObject("Category", list);
+		Product prod=new Product();
+		Category category=new Category();
+		prod.setCategory(category);*/
+		model.addAttribute("categoryList", this.cs.getAllCategories());
+		model.addAttribute("supplierList",this.sup.getAllSupplier());
 		return "add-product";
 	}
 
@@ -44,7 +66,7 @@ public class ProductController {
 		return new Product();
 	}
 
-	@RequestMapping(value = "/product/add/process", method = RequestMethod.POST)
+	@RequestMapping( value = "/product/add/process", method = RequestMethod.POST)
 	public String addProductPost(@Valid @ModelAttribute("product") Product product, BindingResult result,
 			HttpServletRequest request) {
 
@@ -52,7 +74,11 @@ public class ProductController {
 			return "add-product";
 		}
 
-		
+	Category category=cs.getByName(product.getCategory().getCname());
+product.setCategory(category);
+
+Supplier supplier=sup.getByName(product.getSupplier().getSupname());
+product.setSupplier(supplier);
 
 		MultipartFile productImage = product.getImage();
 		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
@@ -67,6 +93,7 @@ public class ProductController {
 			}
 		}
 		productService.addProduct(product);
+	
 		return "administrator";
 
 	}
@@ -87,7 +114,9 @@ public class ProductController {
         Product product = productService.getProductById(pid);
  
         model.addAttribute("product", product);
- 
+		model.addAttribute("categoryList", this.cs.getAllCategories());
+		model.addAttribute("supplierList",this.sup.getAllSupplier());
+
         return "edit-product";
     }
  
@@ -99,7 +128,11 @@ public class ProductController {
             return "edit-product";
         }
  
- 
+        Category category=cs.getByName(product.getCategory().getCname());
+        product.setCategory(category);
+        Supplier supplier=sup.getByName(product.getSupplier().getSupname());
+        product.setSupplier(supplier);
+        
         MultipartFile productImage = product.getImage();
         String rootDirectory = request.getSession().getServletContext().getRealPath("/");
         Path path = Paths.get(rootDirectory + "/WEB-INF/resources/images/" + product.getPid() + ".png");
@@ -133,9 +166,30 @@ public class ProductController {
         }
  
         Product product = productService.getProductById(pid);
-        productService.deleteProduct(product);
+        productService.deleteProduct(pid);
  
         return "redirect:/administrator";
     }
+    
+  
+    
+    
+    
+    @RequestMapping("/productForUser")
+    public String productForUser(Model model){
+        List<Product> product = productService.getAllProduct();
+        model.addAttribute("Product", product);//"Product" same as <c:forEach var="product" items="${Product}"> in jsp
 
+        return "productForUser";
+    }
+    
+    
+    
+    @RequestMapping("/viewProduct/{pid}")
+    public String viewProduct(@PathVariable int pid, Model model) throws IOException{
+        Product product = productService.getProductById(pid);
+        model.addAttribute("product", product);
+
+        return "viewProduct";
+    }
 }

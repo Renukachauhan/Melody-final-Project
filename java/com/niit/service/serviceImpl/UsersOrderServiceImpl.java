@@ -7,39 +7,35 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.niit.dao.UsersOrderDAO;
+import com.niit.model.Cart;
+import com.niit.model.CartItem;
 import com.niit.model.UsersOrder;
+import com.niit.service.CartService;
 import com.niit.service.UsersOrderService;
 
 @Service
 @Transactional
 public class UsersOrderServiceImpl implements UsersOrderService {
-@Autowired
-private UsersOrderDAO usersOrderDAO;
+	 @Autowired
+	    private UsersOrderDAO usersOrderDao;
 
-public void addUsersOrder(UsersOrder usersOrder) {
-	// TODO Auto-generated method stub
-	usersOrderDAO.addUsersOrder(usersOrder);
-}
+	    @Autowired
+	    private CartService cartService;
 
-public void deleteUsersOrder(UsersOrder usersOrder) {
-	// TODO Auto-generated method stub
-	usersOrderDAO.deleteUsersOrder(usersOrder);
-	
-}
+	    public void addUsersOrder(UsersOrder usersOrder){
+	    	usersOrderDao.addUsersOrder(usersOrder);
+	    }
 
-public UsersOrder getUsersOrderById(int orderId) {
-	// TODO Auto-generated method stub
-	return usersOrderDAO.getUsersOrderById(orderId);
-}
+	    public double getUsersOrderGrandTotal(int cid){
+	        double grandTotal = 0;
+	        Cart cart = cartService.getCartById(cid);
+	        List<CartItem> cartItems = cart.getCartItems();
 
-public void editUsersOrder(UsersOrder usersOrder) {
-	// TODO Auto-generated method stub
-	usersOrderDAO.editUsersOrder(usersOrder);
-}
+	        for (CartItem item : cartItems){
+	            grandTotal += item.getTotalPrice();
+	        }
 
-public List getAllUsersOrder() {
-	// TODO Auto-generated method stub
-	return usersOrderDAO.getAllUsersOrder();
-}
+	        return grandTotal;
+	    }
 
 }

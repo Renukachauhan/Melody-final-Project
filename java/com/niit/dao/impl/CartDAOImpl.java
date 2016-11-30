@@ -1,7 +1,9 @@
 package com.niit.dao.impl;
 
+import java.io.IOException;
 import java.util.List;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -9,32 +11,38 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.niit.dao.CartDAO;
 import com.niit.model.Cart;
+import com.niit.service.UsersOrderService;
 @Repository
 
 public class CartDAOImpl implements CartDAO {
 @Autowired
 private SessionFactory sessionFactory;
-	public void addCart(Cart cart) {
-		sessionFactory.openSession().save(cart);
-		
-	}
+	
+@Autowired
+private UsersOrderService usersOrderService;
 
-	public void deleteCart(Cart cart) {
-		sessionFactory.openSession().delete(cart);
-		
-	}
+public Cart getCartById(int cid){
+    Session session = sessionFactory.getCurrentSession();
+    return (Cart) session.get(Cart.class, cid);
+}
 
-	public Cart getCartById(int cartId) {
-		return (Cart) sessionFactory.openSession().get(Cart.class, cartId);
-	}
+public void update(Cart cart){
+    int cid = cart.getCid();
+    double grandTotal = usersOrderService.getUsersOrderGrandTotal(cid);
+    cart.setGrandTotal(grandTotal);
 
-	public void editCart(Cart cart) {
-		sessionFactory.openSession().update(cart);
-		
-	}
+    Session session = sessionFactory.getCurrentSession();
+    session.saveOrUpdate(cart);
+}
 
-	public List getAllCart() {
-	return	sessionFactory.openSession().createQuery("from Cart").list();
-	}
+public Cart validate(int cid) throws IOException{
+    Cart cart = getCartById(cid);
+    if(cart == null || cart.getCartItems().size() == 0){
+        throw new IOException(cid + "");
+    }
+
+    update(cart);
+    return cart;
+}
 
 }

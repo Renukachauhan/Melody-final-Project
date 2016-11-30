@@ -5,9 +5,8 @@ import java.util.List;
 import com.niit.model.UsersOrder;
 
 public interface UsersOrderService {
-		public void addUsersOrder(UsersOrder usersOrder);
-		public void deleteUsersOrder(UsersOrder usersOrder);
-		public UsersOrder getUsersOrderById(int orderId);
-		public void editUsersOrder(UsersOrder usersOrder);
-		public List getAllUsersOrder();
+
+    void addUsersOrder(UsersOrder usersOrder);
+
+    double getUsersOrderGrandTotal(int cid);
 }

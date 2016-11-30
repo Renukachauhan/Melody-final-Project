@@ -7,7 +7,7 @@ import com.niit.model.Product;
 public interface ProductDAO {
 	public void addProduct(Product product);
 	
-	public void deleteProduct(Product product);
+	public void deleteProduct(int pid);
 	
 	public Product getProductById(int pid);
 

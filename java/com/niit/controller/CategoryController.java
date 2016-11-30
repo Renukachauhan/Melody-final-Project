@@ -20,9 +20,10 @@ import com.niit.service.CategoryService;
 
 @Controller
 public class CategoryController {
+	
+
 @Autowired
 private CategoryService categoryService;
-
 
 @RequestMapping("/category/add")
 	public String addCategory(){
@@ -30,7 +31,7 @@ private CategoryService categoryService;
 }
 
 
-@ModelAttribute("category")
+@ModelAttribute("category")     //to avoid NLP
 public Category newCategory()
 {
 	return new Category();
@@ -81,7 +82,7 @@ public String deletecategory(@PathVariable int cid, Model model){
   
 
 	Category category=categoryService.getCategoryById(cid);
-	categoryService.deleteCategory(category);
+	categoryService.deleteCategory(cid);
 
     return "redirect:/administrator";
 }

@@ -13,7 +13,7 @@ import com.niit.model.BillingAddress;
 import com.niit.model.Customer;
 import com.niit.model.ShippingAddress;
 import com.niit.model.Users;
-import com.niit.service.CustomerService;
+import com.niit.service.UsersService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -21,40 +21,71 @@ import java.util.List;
 @Controller
 public class RegisterController {
 	@Autowired
-	private CustomerService customerService;
-	@RequestMapping("/registerCustomer")
-	public String registerCustomer(Model model){
-	Customer customer = new Customer();
+    private UsersService userService;
 	
-	BillingAddress billingAddress = new BillingAddress();
-	ShippingAddress shippingAddress = new ShippingAddress();
+	@RequestMapping("/signUp")
+	public String signUp(){
+		
+		return "signUp";
+		
+	}
+	@ModelAttribute("registerCommand")
+	public Users createUser() {
+		Users user = new Users();
+        BillingAddress billingAddress = new BillingAddress();
+        ShippingAddress shippingAddress = new ShippingAddress();
+        user.setBillingAddress(billingAddress);
+        user.setShippingAddress(shippingAddress);
+        return user;
+		
+	}
 
-	
-	customer.setBillingAddress(billingAddress);
-	customer.setShippingAddress(shippingAddress);
+    @RequestMapping("/register")
+    public String registerCustomer(Model model){
+        Users user = new Users();
+        BillingAddress billingAddress = new BillingAddress();
+        ShippingAddress shippingAddress = new ShippingAddress();
+        user.setBillingAddress(billingAddress);
+        user.setShippingAddress(shippingAddress);
+        model.addAttribute("user", user);
+        return "signUp";
+    }
 
-	model.addAttribute("customer", customer);
-	return "registerCustomer";
-	}
-	@RequestMapping(value = "/registerCustomer", method = RequestMethod.POST)
-	public String registerCustomerPost(@Valid @ModelAttribute("customer") Customer customer, BindingResult result, Model model){
-	if(result.hasErrors()){
-	return "registerCustomer";
-	}
-	List<Customer> customerList = customerService.getAllCustomers();
-	for (int i=0; i< customerList.size(); i++){
-	if(customer.getCustomerEmail().equals(customerList.get(i).getCustomerEmail())){
-	model.addAttribute("emailMsg", "Email already exists");
-	return "registerCustomer";
-	}
-	if(customer.getUsername().equals(customerList.get(i).getUsername())){
-	model.addAttribute("usernameMsg", "Username already exists");
-	return "registerCustomer";
-	}
-	}
-	customer.setEnabled(true);
-	customerService.addCustomer(customer);
-	return "login";
-	}
+	    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public String registerCustomerPost(@ModelAttribute("registerCommand") Users user, BindingResult result, Model model){
+
+        if(result.hasErrors()){
+            return "signUp";
+        }
+        System.out.println(user.getBillingAddress().getCity());
+        System.out.println("inside controller"+user.getUsersId());
+        userService.addUser(user);
+       // user.setEnabled(true);
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        List<Users> customerList = userService.list();
+       /* for (int i=0; i< customerList.size(); i++){
+            if(user.getUseremail().equals(customerList.get(i).getUseremail())){
+                model.addAttribute("emailMsg", "Email already exists");
+
+                return "signUp";
+            }
+
+            if(user.getUsername().equals(customerList.get(i).getUsername())){
+                model.addAttribute("usernameMsg", "Username already exists");
+
+                return "signUp";
+            }
+        }*/
+
+        //userService.saveOrUpdate(user);
+        return "redirect:/login";
+    }
+
+	   /* @RequestMapping("/registerConfirmed")
+		public String registerConfirmed(){
+			
+			return "registerConfirmed";
+			
+		}*/
 	} 
 

@@ -19,7 +19,14 @@ public class BillingAddress implements Serializable{
 	private String country;
 	private String zipCode;
 	@OneToOne
-	private Customer customer;
+	private Users user;
+	
+	public Users getUser() {
+		return user;
+	}
+	public void setUser(Users user) {
+		this.user = user;
+	}
 	public int getBillingAddressId() {
 	return billingAddressId;
 	}
@@ -62,12 +69,7 @@ public class BillingAddress implements Serializable{
 	public void setZipCode(String zipCode) {
 	this.zipCode = zipCode;
 	}
-	public Customer getCustomer() {
-	return customer;
-	}
-	public void setCustomer(Customer customer) {
-	this.customer = customer;
-	}
+	
 	@Override
 	public String toString() {
 	return "BillingAddress{" +

@@ -7,39 +7,30 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.niit.dao.CartItemDAO;
+import com.niit.model.Cart;
 import com.niit.model.CartItem;
 import com.niit.service.CartItemService;
 
 @Service
 @Transactional
 public class CartItemServiceImpl implements CartItemService{
-@Autowired
-private CartItemDAO cartItemDAO;
-	public void addCartItem(CartItem cartItem) {
-		// TODO Auto-generated method stub
-		cartItemDAO.addCartItem(cartItem);
-		
-	}
 
-	public void deleteCartItem(CartItem cartItem) {
-		// TODO Auto-generated method stub
-		cartItemDAO.deleteCartItem(cartItem);
-		
-	}
+    @Autowired
+    private CartItemDAO cartItemDao;
 
-	public CartItem getCartItemById(int cartItemId) {
-		// TODO Auto-generated method stub
-		return cartItemDAO.getCartItemById(cartItemId);
-	}
+    public void addCartItem(CartItem cartItem){
+        cartItemDao.addCartItem(cartItem);
+    }
 
-	public void editCartItem(CartItem cartItem) {
-		// TODO Auto-generated method stub
-		cartItemDAO.editCartItem(cartItem);
-	}
+    public void removeCartItem(CartItem cartItem){
+        cartItemDao.removeCartItem(cartItem);
+    }
 
-	public List getAllCartItems() {
-		// TODO Auto-generated method stub
-		return cartItemDAO.getAllCartItems();
-	}
+    public void removeAllCartItems(Cart cart){
+        cartItemDao.removeAllCartItems(cart);
+    }
 
+    public CartItem getCartItemByProductId(int pid){
+        return cartItemDao.getCartItemByProductId(pid);
+    }
 }

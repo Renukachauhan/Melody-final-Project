@@ -2,6 +2,7 @@ package com.niit.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,26 +22,39 @@ public class ProductDAOImpl implements ProductDAO{
 		sessionFactory.openSession().saveOrUpdate(product);	
 	}
 
-	public void deleteProduct(Product product) {
-		
-sessionFactory.getCurrentSession().delete(product);	
+	public void deleteProduct(int pid) {
+		   Product ProductToDelete = new Product();
+           ProductToDelete.setPid(pid);
+           sessionFactory.getCurrentSession().delete(ProductToDelete);
 	}
 
 
 	public Product getProductById(int pid) {
-	return	(Product) sessionFactory.openSession().get(Product.class, pid);
+		  String hql = "from Product where pid=?";
+          Query query = sessionFactory.getCurrentSession().createQuery(hql);
+          query.setLong(0,pid);
+          @SuppressWarnings("unchecked")
+          List<Product> listProduct = (List<Product>) query.list();
+          if (listProduct != null && !listProduct.isEmpty()) {
+                    return listProduct.get(0);
+          }
+          else
+          {
+                    return null;                      
+          }
 	}
 
 
 	public void editProduct(Product product) {
-	sessionFactory.getCurrentSession().update(product);
+	sessionFactory.getCurrentSession().saveOrUpdate(product);
 	}
 
 	@SuppressWarnings("unchecked")
 	
 	
 	public List<Product> getAllProduct() {
-		return sessionFactory.openSession().createQuery("from Product").list();
-		}
+		   List<Product> listProduct  = (List<Product>) sessionFactory.getCurrentSession().createQuery("from Product").list();
+           return listProduct;
+           }
 
 }

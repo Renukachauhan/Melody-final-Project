@@ -1,43 +1,31 @@
 package com.niit.model;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
-public class Cart implements Serializable {
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int cartId;
-	private double grandTotal;
-	
-	@OneToOne
-	@JoinColumn(name="userid")
-	@JsonIgnore
-	private Users users;
-	
-	@OneToMany(mappedBy="cart", cascade= CascadeType.ALL, fetch=FetchType.EAGER)
-	private List<CartItem> cartItems;
+public class Cart implements Serializable{
 
-	public int getCartId() {
-		return cartId;
-	}
 
-	public void setCartId(int cartId) {
-		this.cartId = cartId;
-	}
+    @Id
+    @GeneratedValue
+    private int cid;
 
-	public double getGrandTotal() {
-		return grandTotal;
-	}
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<CartItem> cartItems;
 
-	public void setGrandTotal(double grandTotal) {
-		this.grandTotal = grandTotal;
-	}
+    @OneToOne
+    @JoinColumn(name = "usersId")
+    @JsonIgnore
+    private Users users;
 
-	public Users getUsers() {
+    
+    public Users getUsers() {
 		return users;
 	}
 
@@ -45,11 +33,34 @@ public class Cart implements Serializable {
 		this.users = users;
 	}
 
-	public List<CartItem> getCartItems() {
-		return cartItems;
+	private double grandTotal;
+
+  
+
+    public int getCid() {
+		return cid;
 	}
 
-	public void setCartItems(List<CartItem> cartItems) {
-		this.cartItems = cartItems;
+	public void setCid(int cid) {
+		this.cid = cid;
 	}
+
+	public List<CartItem> getCartItems() {
+        return cartItems;
+    }
+
+    public void setCartItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
+    }
+
+   
+
+    public double getGrandTotal() {
+        return grandTotal;
+    }
+
+    public void setGrandTotal(double grandTotal) {
+        this.grandTotal = grandTotal;
+    }
+
 }

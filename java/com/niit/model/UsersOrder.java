@@ -11,12 +11,12 @@ public class UsersOrder implements Serializable{
 	private int orderId;
 	
 	@OneToOne
-	@JoinColumn(name="cartId")
+	@JoinColumn(name="cid")
 	private Cart cart;
 	
-	@OneToOne 
-	@JoinColumn(name="userid")
-	private Users users;
+	 @OneToOne
+	    @JoinColumn(name = "userId")
+	    private Users users;
 	
 	@OneToOne
 	@JoinColumn(name="billingAddressId")
@@ -42,6 +42,9 @@ public class UsersOrder implements Serializable{
 		this.cart = cart;
 	}
 
+	
+	
+	
 	public Users getUsers() {
 		return users;
 	}

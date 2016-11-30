@@ -21,9 +21,9 @@ public void addSupplier(Supplier supplier) {
 	supplierDAO.addSupplier(supplier);
 }
 
-public void deleteSupplier(Supplier supplier) {
+public void deleteSupplier(int sid) {
 	// TODO Auto-generated method stub
-	supplierDAO.deleteSupplier(supplier);
+	supplierDAO.deleteSupplier(sid);
 }
 
 public Supplier getSupplierById(int sid) {
@@ -39,5 +39,10 @@ public void editSupplier(Supplier supplier) {
 public List getAllSupplier() {
 	// TODO Auto-generated method stub
 	return supplierDAO.getAllSupplier();
+}
+
+
+public Supplier getByName(String supname) {
+	return supplierDAO.getByName(supname);
 }
 }

@@ -20,8 +20,8 @@ public class Category implements Serializable {
 	private String cname;
 	private String description;
 	private int stock;
-	/* @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<Product> product;*/
+	 @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<Product> product;
 	 
 	public int getCid() {
 		return cid;
@@ -47,11 +47,11 @@ public class Category implements Serializable {
 	public void setStock(int stock) {
 		this.stock = stock;
 	}
-	/* public List<Product> getProduct() {
+	 public List<Product> getProduct() {
 		return product;
 	}
 	public void setProduct(List<Product> product) {
 		this.product = product;
 	}
- */
+ 
 }

@@ -31,10 +31,10 @@ public class Customer implements Serializable {
 	@OneToOne
 	@JoinColumn(name = "shippingAddressId")
 	private ShippingAddress shippingAddress;
-	/*@OneToOne
-	@JoinColumn(name = "cartId")
+	@OneToOne
+	@JoinColumn(name = "cid")
 	@JsonIgnore
-	private Cart cart;*/
+	private Cart cart;
 	public int getCustomerId() {
 	return customerId;
 	}
@@ -89,10 +89,10 @@ public class Customer implements Serializable {
 	public void setShippingAddress(ShippingAddress shippingAddress) {
 	this.shippingAddress = shippingAddress;
 	}
-	/*public Cart getCart() {
+	public Cart getCart() {
 	return cart;
 	}
 	public void setCart(Cart cart) {
 	this.cart = cart;
-	}*/
+	}
 	}

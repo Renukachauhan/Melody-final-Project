@@ -12,7 +12,7 @@ public class CartItem implements Serializable{
 	private int carItemId;
  	
 	@ManyToOne
-	@JoinColumn(name="cartId")
+	@JoinColumn(name="cid")
 	@JsonIgnore
 	private Cart cart;
 	

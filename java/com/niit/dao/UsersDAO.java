@@ -5,9 +5,15 @@ import java.util.List;
 import com.niit.model.Users;
 
 public interface UsersDAO {
-public void addUsers(Users users);
-public void deleteUsers(Users users);
-public Users getUsersById(int userid);
-public void editUsers(Users users);
-public List getAllUsers();
+public List<Users> list();
+	
+	public Users get(int id);
+	
+	public void saveOrUpdate(Users users);
+	
+	public void delete(int id);
+	
+	public Users getUserByName(String username);
+	
+	public void addUser(Users user);
 }

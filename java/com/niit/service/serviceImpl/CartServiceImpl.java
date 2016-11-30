@@ -15,32 +15,14 @@ import com.niit.service.CartService;
 public class CartServiceImpl implements  CartService{
 
 	
-	@Autowired
-	private CartDAO cartDAO;
+	 @Autowired
+	    private CartDAO cartDao;
 
-	public void addCart(Cart cart) {
-		// TODO Auto-generated method stub
-		cartDAO.addCart(cart);
-		
-	}
+	    public Cart getCartById(int cid){
+	        return cartDao.getCartById(cid);
+	    }
 
-	public void deleteCart(Cart cart) {
-		// TODO Auto-generated method stub
-		cartDAO.deleteCart(cart);
-	}
-
-	public Cart getCartById(int cartId) {
-		// TODO Auto-generated method stub
-		return cartDAO.getCartById(cartId);
-	}
-
-	public void editCart(Cart cart) {
-		// TODO Auto-generated method stub
-		cartDAO.editCart(cart);
-	}
-
-	public List getAllCart() {
-		// TODO Auto-generated method stub
-		return cartDAO.getAllCart();
-	}
+	    public void update(Cart cart){
+	        cartDao.update(cart);
+	    }
 }

@@ -21,9 +21,9 @@ public void addCategory(Category category) {
 	categoryDAo.addCategory(category);
 }
 
-public void deleteCategory(Category category) {
+public void deleteCategory(int cid) {
 	// TODO Auto-generated method stub
-	categoryDAo.deleteCategory(category);
+	categoryDAo.deleteCategory(cid);
 }
 
 public Category getCategoryById(int cid) {
@@ -39,5 +39,11 @@ public void editCategory(Category category) {
 public List<Category> getAllCategories() {
 	// TODO Auto-generated method stub
 	return categoryDAo.getAllCategories();
+}
+
+
+public Category getByName(String cname) {
+	// TODO Auto-generated method stub
+	return  categoryDAo.getByName(cname);
 }
 }

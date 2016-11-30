@@ -16,7 +16,7 @@ public class ShippingAddress implements Serializable{
 	private String country;
 	private String zipCode;
 	@OneToOne
-	private Customer customer;
+	private Users users;
 	
 	public int getShippingAddressId() {
 	return shippingAddressId;
@@ -60,11 +60,12 @@ public class ShippingAddress implements Serializable{
 	public void setZipCode(String zipCode) {
 	this.zipCode = zipCode;
 	}
-	public Customer getCustomer() {
-	return customer;
+	
+	public Users getUsers() {
+		return users;
 	}
-	public void setCustomer(Customer customer) {
-	this.customer = customer;
+	public void setUsers(Users users) {
+		this.users = users;
 	}
 	@Override
 	public String toString() {

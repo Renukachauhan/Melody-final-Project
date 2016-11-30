@@ -6,9 +6,10 @@ import java.util.List;
 import javax.persistence.*;
 @Entity
 public class Supplier implements Serializable{
-	@Id
-
+	@Id    
+@GeneratedValue(strategy=GenerationType.AUTO)
 	private int sid;
+	
 	private String supname;
 	private String supaddress;
 	private String supnumber;
@@ -16,9 +17,9 @@ public class Supplier implements Serializable{
 	private String brand;
 	private String supproduct;
 	
-	/*@OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Product> product;
-*/
+
 	public int getSid() {
 		return sid;
 	}
@@ -67,13 +68,13 @@ public class Supplier implements Serializable{
 		this.supproduct = supproduct;
 	}
 
-/*public List<Product> getProduct() {
+public List<Product> getProduct() {
 		return product;
 	}
 
 	public void setProduct(List<Product> product) {
 		this.product = product;
-	}*/
+	}
 	
 	public String getBrand() {
 		return brand;

@@ -1,6 +1,7 @@
 package com.niit.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -28,19 +29,36 @@ public class Product implements Serializable{
 	public void setImage(MultipartFile image) {
 		this.image = image;
 	}
-	/*@ManyToOne
+	
+	
+	
+	 @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	    @JsonIgnore
+	    private List<CartItem> cartItemList;
+	
+	
+	public List<CartItem> getCartItemList() {
+		return cartItemList;
+	}
+	public void setCartItemList(List<CartItem> cartItemList) {
+		this.cartItemList = cartItemList;
+	}
+
+
+
+	@ManyToOne
     @JoinColumn(name = "cid")
     @JsonIgnore
     private Category category;
 	
-	 @ManyToOne
+	@ManyToOne
     @JoinColumn(name = "sid")
     @JsonIgnore
-    private Supplier supplier;*/
+    private Supplier supplier;
 
 
 	
-	/*public Supplier getSupplier() {
+	public Supplier getSupplier() {
 		return supplier;
 	}
 	public void setSupplier(Supplier supplier) {
@@ -52,7 +70,7 @@ public class Product implements Serializable{
 	public void setCategory(Category category) {
 		this.category = category;
 	}
-	*/
+	
 		 
 	
 	public String getName() {
